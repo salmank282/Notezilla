@@ -1,11 +1,37 @@
-import React from 'react'
+/**
+ *  @dependencies
+ */
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-function App() {
+/**
+ * Pages
+ */
+import NotesPage from "./pages/NotesPage/NotesPage";
+import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
+import TrashPage from "./pages/TrashPage/TrashPage";
+
+/**
+ * Additional Components
+ */
+import MainLayout from "./layouts/MainLayout";
+
+const App: React.FC = () => {
   return (
-    <div>
-      <div className='text-3xl text-red-300 font-bold underline'>NoteZilla</div>
-    </div>
-  )
-}
+    <>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/notes" replace/>} />
+
+          <Route path="/notes" element={<NotesPage/>}/>
+          <Route path="/favorites" element={<FavoritesPage/>}/>
+          <Route path="/trash" element={<TrashPage/>} />
+
+          <Route path="*" element={<Navigate to="/"/>}/>
+        </Routes>
+      </MainLayout>
+    </>
+  );
+};
 
 export default App;
