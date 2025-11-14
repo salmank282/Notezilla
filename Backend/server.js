@@ -9,21 +9,20 @@ dotenv.config();
 const app = express();
 const PORT  = process.env.PORT;
 
-
 app.use(cors());
 app.use(express.json());
 
-app.post("/",async (req,res)=>{
-    try{
-       const note = await Note.create(req.body)
-        res.status(201).send({success:true,result:note})
-    }catch(err){
-      res.status(500).json({error:"Error saving data"})
-    }
-})
-
 const startServer=async() => {
   await connectDB();
+
+  app.post("/",async (req,res)=>{
+      try{
+         const note = await Note.create(req.body)
+          res.status(201).send({success:true,result:note})
+      }catch(err){
+        res.status(500).json({error:"Error saving data"})
+      }
+  })
 
   app.listen(PORT , () => {
     console.log(`🚀 Server is running at port http://localhost:${PORT}`);
