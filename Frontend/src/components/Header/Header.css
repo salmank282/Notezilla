@@ -1,0 +1,30 @@
+.header-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 16px;
+  background: linear-gradient(to right, #0f1e3f, #213a56);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.satisfy-regular {
+  font-family: "Satisfy", cursive;
+}
+
+.Search-container{
+    width: 35%;
+    position: relative;
+}
+
+.search{
+    background: linear-gradient(to right, #cdaa80, #997953);
+    outline: none;
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    padding: 4px 8px 4px 28px;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 16px;
+}
