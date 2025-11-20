@@ -9,7 +9,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
  */
 import NotesPage from "./pages/NotesPage/NotesPage";
 import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
-import TrashPage from "./pages/TrashPage/TrashPage";
+import WorkPage from "./pages/WorkPage/WorkPage";
+import PersonalPage from "./pages/PersonalPage/PersonalPage";
+import IdeasPage from "./pages/IdeasPage/IdeasPage";
 
 /**
  * Additional Components
@@ -25,7 +27,9 @@ const App: React.FC = () => {
 
           <Route path="/notes" element={<NotesPage/>}/>
           <Route path="/favorites" element={<FavoritesPage/>}/>
-          <Route path="/trash" element={<TrashPage/>} />
+          <Route path="/work" element={<WorkPage/>} />
+          <Route path="/personal" element={<PersonalPage/>}></Route>
+          <Route path="/ideas" element={<IdeasPage/>}></Route>
 
           <Route path="*" element={<Navigate to="/"/>}/>
         </Routes>

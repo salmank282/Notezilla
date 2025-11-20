@@ -3,12 +3,12 @@
  */
 import React from "react";
 
-const TrashPage: React.FC = () => {
+const WorkPage: React.FC = () => {
   return (
     <div>
-      <h1>TrashPage</h1>
+      <h1>WorkPage</h1>
     </div>
   );
 };
 
-export default TrashPage;
+export default WorkPage;

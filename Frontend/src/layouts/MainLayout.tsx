@@ -9,7 +9,7 @@ import "./MainLayout.css";
  * Additional Components
  */
 import Header from "../components/Header/Header";
-import Siderbar from "../components/Siderbar/Siderbar";
+import Sidebar from "../components/Siderbar/Sidebar";
 
 interface MainLayoutProps {
     children: React.ReactNode;
@@ -20,7 +20,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
     <div className="app-layout">
       <Header />
       <div className="layout-body">
-        <Siderbar />
+        <Sidebar />
         <main className="layout-content">{children}</main>
       </div>
     </div>
