@@ -10,6 +10,7 @@ const NoteZillaStringHelper={
         ideas:"Ideas",
     },
     routes:{
+        newNote:"new-note",
         notes:"notes",
         favorites:"favorites",
         work:"work",
