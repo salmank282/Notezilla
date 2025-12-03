@@ -1,7 +1,7 @@
 /**
  *  @dependencies
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 /**
  * styles
@@ -12,6 +12,12 @@ import "./NewNotePage.css";
  * services
  */
 import { createNote } from "../../services/notesService";
+import { useSpeechRecognition } from "../../services/useSpeechRecognition";
+
+/**
+ * Additonal libraries
+ */
+import { ToastContainer, toast } from "react-toastify";
 
 /**
  * icons
@@ -19,11 +25,25 @@ import { createNote } from "../../services/notesService";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegStar } from "react-icons/fa";
 import { IoSaveOutline } from "react-icons/io5";
+import { PiMicrophoneDuotone } from "react-icons/pi";
 
 const NewNotePage: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [activeField, setActiveField] = useState<"title" | "content" | null>(null);
+
+  const { transcript, isListening, startListening, stopListening } =
+    useSpeechRecognition();
+
+  useEffect(() => {
+    if (!isListening) return;
+    if(activeField === "title") {
+      setTitle(transcript);
+    } else if(activeField === "content") {
+      setContent(transcript);
+    }
+  }, [transcript, isListening, activeField]);
 
   /**
    * cHandles the change event for the note title input field.
@@ -54,22 +74,20 @@ const NewNotePage: React.FC = () => {
     console.log(title, content);
 
     if (!title.trim()) {
-      alert("Title cannot be empty");
+      toast("Title cannot be empty", { type: "error" });
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await createNote(title, content);
-      console.log("Saved note:", res);
-      alert("Note saved successfully!");
-
+      await createNote(title, content);
+      toast("Note saved successfully!", { type: "success" });
       setTitle("");
       setContent("");
     } catch (err) {
       console.error("Error saving note:", err);
-      alert("Failed to save note. Please try again.");
+      toast("Failed to save note. Please try again.", { type: "error" });
     } finally {
       setLoading(false);
     }
@@ -77,10 +95,12 @@ const NewNotePage: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#FAEBD7] h-full p-4">
+      <ToastContainer />
+      <div className="bg-[#FAEBD7] h-full p-4 relative">
         <div className="title-container">
           <input
             type="text"
+            onFocus={() => setActiveField("title")}
             onChange={(e) => {
               onTitleChange(e.target.value);
             }}
@@ -100,10 +120,20 @@ const NewNotePage: React.FC = () => {
         <div className="underline"></div>
         <div className="content-container">
           <textarea
+            onFocus={() => setActiveField("content")}
             onChange={(e) => onContentChange(e.target.value)}
             value={content}
             className="content-input"
           />
+        </div>
+        <div className="mic-container">
+          <button
+            onClick={isListening ? stopListening : startListening}
+            className={`mic-btn ${isListening ? 'active' : ''}`}
+            disabled={activeField === null}
+          >
+            <PiMicrophoneDuotone />
+          </button>
         </div>
       </div>
     </>
