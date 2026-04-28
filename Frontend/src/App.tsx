@@ -7,6 +7,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 /**
  * Pages
  */
+import NewNotePage from "./pages/NewNotePage/NewNotePage";
 import NotesPage from "./pages/NotesPage/NotesPage";
 import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 import WorkPage from "./pages/WorkPage/WorkPage";
@@ -24,7 +25,8 @@ const App: React.FC = () => {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Navigate to="/notes" replace/>} />
-
+          
+          <Route path="/new-note" element={<NewNotePage/>}/>
           <Route path="/notes" element={<NotesPage/>}/>
           <Route path="/favorites" element={<FavoritesPage/>}/>
           <Route path="/work" element={<WorkPage/>} />

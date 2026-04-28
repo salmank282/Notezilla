@@ -1,0 +1,89 @@
+.title-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.title-input {
+  width: 50%;
+  padding: 10px;
+  font-size: 28px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.underline {
+  width: 50%;
+  border-bottom: 2px solid grey;
+}
+
+.title-Icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  height: 52px;
+  color: #555555;
+}
+
+.save-icon {
+  font-size: 26px;
+}
+
+.save-btn {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: #4caf50;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  padding: 4px 12px;
+  height: 32px;
+}
+
+.content-container {
+  margin-top: 20px;
+}
+
+.content-input {
+  width: 100%;
+  height: 65vh;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.mic-container {
+  position: fixed;
+  z-index: 10;
+  bottom: 30px;
+  right: 30px;
+}
+
+.mic-btn {
+  font-size: 30px;
+  cursor: pointer;
+  color: invert;
+  padding: 12px 12px;
+  border-radius: 30px;
+}
+
+.mic-btn.active {
+    color: white;
+    animation: pulse-shadow 1s infinite;
+    background: linear-gradient(to bottom, #213e7b, #2b66aa);
+}
+
+@keyframes pulse-shadow {
+  0%, 100% {
+    box-shadow: 0 0 0 0px #7aa9df;
+  }
+  50% {
+    box-shadow: 0 0 0 10px #7aa9df;
+  }
+}
