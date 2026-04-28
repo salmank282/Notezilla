@@ -16,6 +16,11 @@ import axiosInstance from "./axiosInstance";
  * @returns A promise that resolves to the data of the created note.
  */
 export const createNote = async (title: string, content: string) => {
-    const response = await axiosInstance.post("/", { title, content });
-    return response.data;
-}
+    try {
+        const response = await axiosInstance.post("/", { title, content });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating note:", error);
+        throw error;
+    }
+};

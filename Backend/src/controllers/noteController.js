@@ -31,3 +31,22 @@ export const createNote = async (req, res) => {
     });
   }
 };
+
+export const getAllNotes = async (req, res) => {
+  try {
+    const notes = await Note.find()
+
+    res.status(200).json({
+      success: true,
+      count: notes.length,
+      message: "Notes retrieved successfully",
+      data: notes,
+    });
+  }catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching notes",
+      error: err.message,
+    })
+  };
+}
