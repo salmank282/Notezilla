@@ -16,7 +16,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5007",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
+
 app.use(express.json());
 
 //Register Routes

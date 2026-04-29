@@ -11,7 +11,7 @@ import "./NewNotePage.css";
 /**
  * services
  */
-import { createNote } from "../../services/notesService";
+import { notesService } from "../../services/notesService";
 import { useSpeechRecognition } from "../../services/useSpeechRecognition";
 
 /**
@@ -81,7 +81,7 @@ const NewNotePage: React.FC = () => {
     setLoading(true);
 
     try {
-      await createNote(title, content);
+      await notesService.createNote(title, content);
       toast("Note saved successfully!", { type: "success" });
       setTitle("");
       setContent("");
