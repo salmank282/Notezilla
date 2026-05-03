@@ -16,12 +16,17 @@ import Sidebar from "../components/Siderbar/Sidebar";
 
 interface MainLayoutProps {
     children: React.ReactNode;
+    searchNote: string;
+    setSearchNote: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
+const MainLayout: React.FC<MainLayoutProps> = ({children, searchNote, setSearchNote}) => {
   return (
     <div className="app-layout">
-      <Header />
+      <Header 
+        searchNote={searchNote}
+        setSearchNote={setSearchNote}
+      />
       <div className="layout-body">
         <Sidebar />
         <main className="layout-content">{children}</main>

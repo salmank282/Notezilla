@@ -10,6 +10,7 @@
  *  @dependencies
  */
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 /**
  * Styles
@@ -28,8 +29,16 @@ import { IoSearch } from "react-icons/io5";
  */
 import NoteZillaStringHelper from "../../utils/StringHelper";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  searchNote: string;
+  setSearchNote: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Header: React.FC<HeaderProps> = ({ searchNote, setSearchNote}) => {
   const { title } = NoteZillaStringHelper;
+  
+  const location = useLocation();
+  const hideSearchBar = location.pathname === "/new-note" || location.pathname.startsWith("/notes/");
 
   return (
     <div className="header-container">
@@ -45,12 +54,12 @@ const Header: React.FC = () => {
           {title.noteZilla}
         </div>
       </div>
-      <div className="Search-container">
+      {!hideSearchBar && <div className="Search-container">
         <div className="absolute top-1 left-1">
           <IoSearch className=" h-[22px] w-[22px] text-[#323232]" />
         </div>
-        <input type="text" className="search" />
-      </div>
+        <input type="text" value={searchNote} onChange={(e)=>{setSearchNote(e.target.value)}} className="search" />
+      </div>}
       <img
         src={avatar}
         className="rounded-full"

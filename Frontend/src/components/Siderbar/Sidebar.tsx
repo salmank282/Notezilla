@@ -75,7 +75,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="sidebar-container">
       <div className="mx-auto">
-        <button onClick={()=>toPage(routes.newNote)}className="flex gap-1 items-center border-2 hover:text-[25px]  rounded-lg border-[#0a4174] mt-4 bg-[#49769f] text-white text-2xl cursor-pointer px-4 py-2">
+        <button onClick={()=>toPage(routes.newNote)} className="flex gap-1 items-center border-2 hover:text-[25px]  rounded-lg border-[#0a4174] mt-4 bg-[#49769f] text-white text-2xl cursor-pointer px-4 py-2">
           <FaNotesMedical /> <span>New Note</span>
         </button>
       </div>

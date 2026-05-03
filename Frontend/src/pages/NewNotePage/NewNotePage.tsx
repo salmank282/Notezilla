@@ -2,6 +2,7 @@
  *  @dependencies
  */
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 /**
  * styles
@@ -32,6 +33,32 @@ const NewNotePage: React.FC = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeField, setActiveField] = useState<"title" | "content" | null>(null);
+
+  const {id} = useParams();
+
+  useEffect(() => {
+    if(!id){
+      setTitle("");
+      setContent("");
+    }
+  },[id])
+
+  useEffect(() => { 
+    const fetchNote = async () => {
+      if(id) {
+        try{
+          const Note = await notesService.getNoteById(id);
+          setTitle(Note.title);
+          setContent(Note.content);
+        }catch(error){
+          console.error(`Error fetching note with ID ${id}:`, error);
+        }
+      }
+    };
+
+    fetchNote();
+  }, [id]);
+  
 
   const { transcript, isListening, startListening, stopListening } =
     useSpeechRecognition();
@@ -71,8 +98,6 @@ const NewNotePage: React.FC = () => {
    * @returns {Promise<void>} A promise that resolves when the save operation is complete.
    */
   const onSaveNote = async () => {
-    console.log(title, content);
-
     if (!title.trim()) {
       toast("Title cannot be empty", { type: "error" });
       return;
@@ -81,6 +106,13 @@ const NewNotePage: React.FC = () => {
     setLoading(true);
 
     try {
+      if(id){
+          const res= await notesService.updateNoteById(id, title, content);
+          toast("Note updated successfully!", { type: "success" });
+          setTitle(res.title);
+          setContent(res.content);
+          return;
+      }
       await notesService.createNote(title, content);
       toast("Note saved successfully!", { type: "success" });
       setTitle("");
@@ -112,8 +144,8 @@ const NewNotePage: React.FC = () => {
             <RiDeleteBin6Line className="cursor-pointer" />
             <FaRegStar className="cursor-pointer" />
             <div className="save-btn" onClick={onSaveNote}>
-              <IoSaveOutline className="save-icon" />{" "}
-              {loading ? "Saving.." : "Save"}
+              <IoSaveOutline className="save-icon" />
+              {id ? loading ? "Updating.." : "Update" : loading ? "Saving.." : "Save"}
             </div>
           </div>
         </div>

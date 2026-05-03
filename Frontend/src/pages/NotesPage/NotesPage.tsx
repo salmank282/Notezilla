@@ -1,7 +1,8 @@
 /**
- *  @dependencies
+ * @dependencies
  */
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * styles
@@ -18,8 +19,19 @@ import { notesService } from "../../services/notesService";
  */
 import type { Note } from "../../models/notesUi.model";
 
-const NotesPage: React.FC = () => {
+/**
+ * utils
+ */
+import NoteZillaStringHelper from "../../utils/StringHelper";
+
+interface NotesPageProps {
+  searchNote: string;
+}
+
+const NotesPage: React.FC<NotesPageProps> = ({ searchNote }) => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const { noNotesMessage } = NoteZillaStringHelper.noNotes;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -41,19 +53,28 @@ const NotesPage: React.FC = () => {
     fetchNotes();
   }, []);
 
-  const noteView = () => {
-    
-  }
+  const noteView = (id: string) => {
+    navigate(`/notes/${id}`);
+  };
 
   return (
     <>
+      {!notes.length && <div className="no-notes">{noNotesMessage}</div>}
       <div className="all-notes-container">
-        {notes.map((note) => (
-          <div className="note-card" onClick={noteView} key={note.id}>
-            <div className="note-title">{note.title}</div>
-            <div className="note-content">{note.content}</div>
-          </div>
-        ))}
+        {notes
+          .filter((note) =>
+            note.title.toLowerCase().includes(searchNote.toLowerCase()),
+          )
+          .map((note) => (
+            <div
+              className="note-card"
+              onClick={() => noteView(note.id)}
+              key={note.id}
+            >
+              <div className="note-title">{note.title}</div>
+              <div className="note-content">{note.content}</div>
+            </div>
+          ))}
       </div>
     </>
   );
