@@ -17,12 +17,11 @@ import type { Note, ApiResponse } from "../models/notesApi.model";
 
 class NotesService {
 
-
-    /**
- * @description Creates a new note with the specified title and content.
- * @param title - The title of the note to be created.
- * @param content - The content of the note to be created.
- * @returns A promise that resolves to the data of the created note.
+     /**
+    * @description Creates a new note with the specified title and content.
+    * @param title - The title of the note to be created.
+    * @param content - The content of the note to be created.
+    * @returns A promise that resolves to the data of the created note.
     */
     async createNote(title: string, content: string): Promise<ApiResponse<Note>> {
         const payload = { title, content };
@@ -36,6 +35,11 @@ class NotesService {
         }
     }
 
+    /**
+     * @description Retrieves all notes from the server.
+     * @returns A promise that resolves to an array of notes.
+     * @throws Will throw an error if the API call fails.s
+     */
     async getAllNotes(): Promise<Note[]> {
         try {
             const response = await axiosInstance.get<ApiResponse<Note[]>>(Api.getAllNotes);
@@ -44,6 +48,42 @@ class NotesService {
             console.error("Error fetching notes:", error);
             throw error;
         }
+    }
+
+    /**
+     * @description Retrieves a note by its ID from the server.
+     * @param noteId - The ID of the note to be retrieved.
+     * @returns A promise that resolves to the note with the specified ID.
+     * @throws Will throw an error if the API call fails.
+     */
+    async getNoteById(noteId: string): Promise<Note> {
+        try{
+            const response = await axiosInstance.get<ApiResponse<Note>>(`${Api.getNotebyId}/${noteId}`);
+            return response.data.data;
+        }catch(error){
+            console.error(`Error fetching note with ID ${noteId}:`, error);
+            throw error;
+        }
+    }
+
+    /**
+     * @description Updates a note by its ID with the specified title and content.
+     * @param noteId - The ID of the note to be updated.
+     * @param title - The new title of the note.
+     * @param content - The new content of the note.
+     * @returns A promise that resolves to the updated note.
+     * @throws Will throw an error if the API call fails.
+     */
+    async updateNoteById(noteId: string, title: string, content: string): Promise<Note>{
+        const payload = { title, content };
+
+        try{
+            const response = await axiosInstance.put<ApiResponse<Note>>(`${Api.updateNoteById}/${noteId}`, payload); 
+            return response.data.data;
+         }catch(error){
+            console.error(`Error updating note with ID ${noteId}:`, error);
+            throw error;
+         }
     }
 
 }

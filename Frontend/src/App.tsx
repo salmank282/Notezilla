@@ -1,7 +1,7 @@
 /**
  *  @dependencies
  */
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 /**
@@ -19,15 +19,18 @@ import IdeasPage from "./pages/IdeasPage/IdeasPage";
  */
 import MainLayout from "./layouts/MainLayout";
 
-const App: React.FC = () => {
+const App: React.FC = () => { 
+  const [searchNote, setSearchNote] = useState("");
+
   return (
     <>
-      <MainLayout>
+      <MainLayout searchNote={searchNote} setSearchNote={setSearchNote}>
         <Routes>
           <Route path="/" element={<Navigate to="/notes" replace/>} />
           
           <Route path="/new-note" element={<NewNotePage/>}/>
-          <Route path="/notes" element={<NotesPage/>}/>
+          <Route path="/notes/:id" element={<NewNotePage/>}/>
+          <Route path="/notes" element={<NotesPage searchNote={searchNote}/>} />
           <Route path="/favorites" element={<FavoritesPage/>}/>
           <Route path="/work" element={<WorkPage/>} />
           <Route path="/personal" element={<PersonalPage/>}></Route>

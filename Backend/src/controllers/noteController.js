@@ -10,9 +10,7 @@ import Note from "../models/noteModel.js";
  * @param {Object} req - The request object.
  * @param {Object} req.body - The body of the request containing note data.
  * @param {Object} res - The response object.
- * @returns {Promise<void>} Sends a JSON response with the created note data or an error message.
- *
- * @throws {Error} If there is an issue saving the note to the database.
+ * @returns {Object} A JSON response indicating the success or failure of the note creation.
  */
 export const createNote = async (req, res) => {
   try {
@@ -32,6 +30,9 @@ export const createNote = async (req, res) => {
   }
 };
 
+/**
+ * @description Retrieves all notes from the database and sends them in the response.
+ */
 export const getAllNotes = async (req, res) => {
   try {
     const notes = await Note.find()
@@ -50,3 +51,61 @@ export const getAllNotes = async (req, res) => {
     })
   };
 }
+
+/**
+ * @description Retrieves a note by its ID from the database and sends it in the response.
+ */
+export const getNoteById = async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+
+    if(!note){
+      return res.status(404).json({
+        success: false,
+        message: "Note not found",
+      })
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Note retrieved successfully",
+      data: note,
+    })
+  }catch (err){
+    res.status(500).json({
+      success: false,
+      message: "Error fetching note",
+      error: err.message,
+    })
+  }
+}
+
+/**
+ * @description Updates a note by its ID in the database and sends the updated note in the response.
+ */
+export const updateNoteById = async (req, res) => {
+  try {
+    const note = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    if(!note){
+      res.status(404).json({
+        success: false,
+        message: "Note not found",
+      })
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Note updated successfully",
+      data: note,
+    })
+  }catch (err){
+    res.status(500).json({
+      success: false,
+      message: "Error updating note",
+      error: err.message,
+    })
+  }
+
+}
+

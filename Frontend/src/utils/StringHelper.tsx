@@ -16,6 +16,9 @@ const NoteZillaStringHelper={
         work:"work",
         personal:"personal",
         ideas:"ideas",
+    },
+    noNotes:{
+        noNotesMessage: "No notes available. Create a new note to get started!"
     }
 }
 
