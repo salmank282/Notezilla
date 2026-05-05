@@ -1,5 +1,6 @@
 export const Api = {
     getAllNotes: "/getAllNotes",
     getNotebyId: "/getNote",
-    updateNoteById: "/updateNote"
+    updateNoteById: "/updateNote",
+    deleteNoteById: "/deleteNote",
 }

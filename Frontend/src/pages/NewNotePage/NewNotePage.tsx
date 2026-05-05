@@ -93,8 +93,6 @@ const NewNotePage: React.FC = () => {
    * This function validates the note's title to ensure it is not empty.
    * If the title is valid, it attempts to save the note by calling the `createNote` function.
    * During the save operation, a loading state is set to provide user feedback.
-   * @async
-   * @function`
    * @returns {Promise<void>} A promise that resolves when the save operation is complete.
    */
   const onSaveNote = async () => {
@@ -125,6 +123,25 @@ const NewNotePage: React.FC = () => {
     }
   };
 
+
+  /**
+   * @description Handles the deletion of a note. This function checks if a note ID is present, and if so, it attempts to delete the note using the `deleteNoteById` service function. Upon successful deletion, it displays a success toast message and clears the title and content state. If an error occurs during deletion, it logs the error and shows an error toast message.
+   */
+  const deleteNote = async () => {
+    if (!id) return;
+
+    try{
+      await notesService.deleteNoteById(id);
+      toast("Note deleted successfully!", { type: "success" });
+      setTitle("");
+      setContent("");
+    }catch(error){
+      console.error(`Error deleting note with ID ${id}:`, error);
+      toast("Failed to delete note. Please try again.", { type: "error" });
+    }
+  }
+  
+
   return (
     <>
       <ToastContainer />
@@ -141,7 +158,7 @@ const NewNotePage: React.FC = () => {
             placeholder="Title"
           />
           <div className="title-Icons">
-            <RiDeleteBin6Line className="cursor-pointer" />
+           {id && <div onClick={deleteNote}><RiDeleteBin6Line className="cursor-pointer" /></div>}
             <FaRegStar className="cursor-pointer" />
             <div className="save-btn" onClick={onSaveNote}>
               <IoSaveOutline className="save-icon" />
