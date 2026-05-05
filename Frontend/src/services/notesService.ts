@@ -86,6 +86,21 @@ class NotesService {
          }
     }
 
+    /**
+     * @description Deletes a note by its ID from the server.
+     * @param noteId - The ID of the note to be deleted.
+     * @returns A promise that resolves to a success message upon successful deletion.
+     * @throws Will throw an error if the API call fails.    
+    */
+    async deleteNoteById(noteId: string): Promise<string> {
+        try{
+            const response = await axiosInstance.delete<ApiResponse<null>>(`${Api.deleteNoteById}/${noteId}`);
+            return response.data.message;
+        }catch(error){
+            console.error(`Error deleting note with ID ${noteId}:`, error);
+            throw error;
+        }
+    }
 }
 
 export const notesService = new NotesService();
