@@ -23,6 +23,20 @@
   height: 200px;
 }
 
+.note-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #d7e7f7;
+  color: #1c4b77;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .note-title {
   font-size: 22px;
   font-weight: bold;
@@ -33,10 +47,10 @@
   font-size: 14px;
   color: #555;
   overflow: scroll;
-  height: 80%;
+  height: 60%;
 }
 
-.note-actions{
+.note-actions {
   opacity: 0;
   transition: opacity 0.3s ease;
   position: absolute;
@@ -49,4 +63,3 @@
 .note-card:hover .note-actions {
   opacity: 1;
 }
-

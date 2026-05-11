@@ -18,6 +18,8 @@ import { notesService } from "../../services/notesService";
  * models
  */
 import type { Note } from "../../models/notesUi.model";
+import { formatNoteTag, isNoteTag } from "../../models/noteTag.model";
+import type { NoteTag } from "../../models/noteTag.model";
 
 /**
  * utils
@@ -31,9 +33,15 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface NotesPageProps {
   searchNote: string;
+  tagFilter?: NoteTag;
+  emptyMessage?: string;
 }
 
-const NotesPage: React.FC<NotesPageProps> = ({ searchNote }) => {
+const NotesPage: React.FC<NotesPageProps> = ({
+  searchNote,
+  tagFilter,
+  emptyMessage,
+}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const { noNotesMessage } = NoteZillaStringHelper.noNotes;
   const navigate = useNavigate();
@@ -50,6 +58,7 @@ const NotesPage: React.FC<NotesPageProps> = ({ searchNote }) => {
           id: note._id,
           title: note.title,
           content: note.content,
+          tag: isNoteTag(note.tag) ? note.tag : "personal",
           createdAt: note.createdAt,
           updatedAt: note.updatedAt,
         }));
@@ -77,7 +86,7 @@ const NotesPage: React.FC<NotesPageProps> = ({ searchNote }) => {
   const deleteNote = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this note?",
+      NoteZillaStringHelper.noNotes.noNotesMessage
     );
 
     if (confirmDelete) {
@@ -92,30 +101,38 @@ const NotesPage: React.FC<NotesPageProps> = ({ searchNote }) => {
     }
   };
 
+  const filteredNotes = notes.filter((note) => {
+    const matchesSearch = note.title
+      .toLowerCase()
+      .includes(searchNote.toLowerCase());
+    const matchesTag = tagFilter ? note.tag === tagFilter : true;
+
+    return matchesSearch && matchesTag;
+  });
+
   return (
     <>
-      {!notes.length && <div className="no-notes">{noNotesMessage}</div>}
+      {!filteredNotes.length && (
+        <div className="no-notes">{emptyMessage ?? noNotesMessage}</div>
+      )}
       <div className="all-notes-container">
-        {notes
-          .filter((note) =>
-            note.title.toLowerCase().includes(searchNote.toLowerCase()),
-          )
-          .map((note) => (
+        {filteredNotes.map((note) => (
+          <div
+            className="note-card"
+            onClick={() => noteView(note.id)}
+            key={note.id}
+          >
+            <div className="note-tag">{formatNoteTag(note.tag)}</div>
+            <div className="note-title">{note.title}</div>
+            <div className="note-content">{note.content}</div>
             <div
-              className="note-card"
-              onClick={() => noteView(note.id)}
-              key={note.id}
+              className="note-actions"
+              onClick={(e) => deleteNote(e, note.id)}
             >
-              <div className="note-title">{note.title}</div>
-              <div className="note-content">{note.content}</div>
-              <div
-                className="note-actions"
-                onClick={(e) => deleteNote(e, note.id)}
-              >
-                <RiDeleteBin6Line className="cursor-pointer" />
-              </div>
+              <RiDeleteBin6Line className="cursor-pointer" />
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     </>
   );

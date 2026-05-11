@@ -14,21 +14,22 @@ import { Api } from "./api";
  * models
  */
 import type { Note, ApiResponse } from "../models/notesApi.model";
+import type { NoteTag } from "../models/noteTag.model";
 
 class NotesService {
 
-     /**
-    * @description Creates a new note with the specified title and content.
-    * @param title - The title of the note to be created.
-    * @param content - The content of the note to be created.
-    * @returns A promise that resolves to the data of the created note.
-    */
-    async createNote(title: string, content: string): Promise<ApiResponse<Note>> {
-        const payload = { title, content };
+    /**
+   * @description Creates a new note with the specified title and content.
+   * @param title - The title of the note to be created.
+   * @param content - The content of the note to be created.
+   * @returns A promise that resolves to the data of the created note.
+   */
+    async createNote(title: string, content: string, tag: NoteTag): Promise<Note> {
+        const payload = { title, content, tag };
 
         try {
             const response = await axiosInstance.post<ApiResponse<Note>>("/", payload);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             console.error("Error creating note:", error);
             throw error;
@@ -57,10 +58,10 @@ class NotesService {
      * @throws Will throw an error if the API call fails.
      */
     async getNoteById(noteId: string): Promise<Note> {
-        try{
+        try {
             const response = await axiosInstance.get<ApiResponse<Note>>(`${Api.getNotebyId}/${noteId}`);
             return response.data.data;
-        }catch(error){
+        } catch (error) {
             console.error(`Error fetching note with ID ${noteId}:`, error);
             throw error;
         }
@@ -74,16 +75,16 @@ class NotesService {
      * @returns A promise that resolves to the updated note.
      * @throws Will throw an error if the API call fails.
      */
-    async updateNoteById(noteId: string, title: string, content: string): Promise<Note>{
-        const payload = { title, content };
+    async updateNoteById(noteId: string, title: string, content: string, tag: NoteTag): Promise<Note> {
+        const payload = { title, content, tag };
 
-        try{
-            const response = await axiosInstance.put<ApiResponse<Note>>(`${Api.updateNoteById}/${noteId}`, payload); 
+        try {
+            const response = await axiosInstance.put<ApiResponse<Note>>(`${Api.updateNoteById}/${noteId}`, payload);
             return response.data.data;
-         }catch(error){
+        } catch (error) {
             console.error(`Error updating note with ID ${noteId}:`, error);
             throw error;
-         }
+        }
     }
 
     /**
@@ -93,10 +94,10 @@ class NotesService {
      * @throws Will throw an error if the API call fails.    
     */
     async deleteNoteById(noteId: string): Promise<string> {
-        try{
+        try {
             const response = await axiosInstance.delete<ApiResponse<null>>(`${Api.deleteNoteById}/${noteId}`);
             return response.data.message;
-        }catch(error){
+        } catch (error) {
             console.error(`Error deleting note with ID ${noteId}:`, error);
             throw error;
         }

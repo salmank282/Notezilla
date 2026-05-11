@@ -1,6 +1,7 @@
 const NoteZillaStringHelper={
     title:{
         noteZilla:"NoteZilla",
+        tagTitle:"Tag",
     },
     pageTitle:{
         allNotes:"All Notes",
