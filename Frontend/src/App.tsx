@@ -9,34 +9,69 @@ import { Routes, Route, Navigate } from "react-router-dom";
  */
 import NewNotePage from "./pages/NewNotePage/NewNotePage";
 import NotesPage from "./pages/NotesPage/NotesPage";
-import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
-import WorkPage from "./pages/WorkPage/WorkPage";
-import PersonalPage from "./pages/PersonalPage/PersonalPage";
-import IdeasPage from "./pages/IdeasPage/IdeasPage";
 
 /**
  * Additional Components
  */
 import MainLayout from "./layouts/MainLayout";
 
-const App: React.FC = () => { 
+const App: React.FC = () => {
   const [searchNote, setSearchNote] = useState("");
 
   return (
     <>
       <MainLayout searchNote={searchNote} setSearchNote={setSearchNote}>
         <Routes>
-          <Route path="/" element={<Navigate to="/notes" replace/>} />
-          
-          <Route path="/new-note" element={<NewNotePage/>}/>
-          <Route path="/notes/:id" element={<NewNotePage/>}/>
-          <Route path="/notes" element={<NotesPage searchNote={searchNote}/>} />
-          <Route path="/favorites" element={<FavoritesPage/>}/>
-          <Route path="/work" element={<WorkPage/>} />
-          <Route path="/personal" element={<PersonalPage/>}></Route>
-          <Route path="/ideas" element={<IdeasPage/>}></Route>
+          <Route path="/" element={<Navigate to="/notes" replace />} />
 
-          <Route path="*" element={<Navigate to="/"/>}/>
+          <Route path="/new-note" element={<NewNotePage />} />
+          <Route path="/notes/:id" element={<NewNotePage />} />
+          <Route
+            path="/notes"
+            element={<NotesPage searchNote={searchNote} />}
+          />
+          <Route
+            path="/favorites"
+            element={
+              <NotesPage
+                searchNote={searchNote}
+                tagFilter="favorite"
+                emptyMessage="No favorite notes available."
+              />
+            }
+          />
+          <Route
+            path="/work"
+            element={
+              <NotesPage
+                searchNote={searchNote}
+                tagFilter="work"
+                emptyMessage="No work notes available."
+              />
+            }
+          />
+          <Route
+            path="/personal"
+            element={
+              <NotesPage
+                searchNote={searchNote}
+                tagFilter="personal"
+                emptyMessage="No personal notes available."
+              />
+            }
+          ></Route>
+          <Route
+            path="/ideas"
+            element={
+              <NotesPage
+                searchNote={searchNote}
+                tagFilter="ideas"
+                emptyMessage="No ideas notes available."
+              />
+            }
+          ></Route>
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </MainLayout>
     </>

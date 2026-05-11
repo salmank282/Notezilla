@@ -1,7 +1,10 @@
+import type { NoteTag } from "./noteTag.model";
+
 export interface Note {
     _id: string;
     title: string;
     content: string;
+    tag: NoteTag;
     createdAt: string;
     updatedAt: string;
 }
@@ -9,6 +12,6 @@ export interface Note {
 export interface ApiResponse<T> {
     success: boolean;
     message: string;
-    count?:number;
+    count?: number;
     data: T;
 }
