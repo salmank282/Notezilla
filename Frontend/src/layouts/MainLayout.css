@@ -1,0 +1,16 @@
+.app-layout{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.layout-body{
+    display: flex;
+}
+
+.layout-content{
+    flex: 1;
+    height: calc(100vh - 54px);
+    overflow-y: auto;
+    padding: 10px 16px;
+}

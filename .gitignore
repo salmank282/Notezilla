@@ -1,0 +1,12 @@
+# Node modules (both frontend & backend)
+node_modules/
+
+# Logs
+*.log
+
+# Build outputs
+dist/
+build/
+.next/
+coverage/
+.vscode/
